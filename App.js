@@ -21,10 +21,14 @@ export default function App() {
     if (text.length > 3) {
       setTodos(prevTodos => {
         return [
-          ...prevTodos,
-          { text: text, id: Math.random().toString() }
+          { text: text, id: Math.random().toString() },
+          ...prevTodos
         ]
       })
+      Keyboard.dismiss()
+      Alert.alert('Yay!', 'New todo added', [
+        { text: 'close', onPress: () => console.log('alert closed') }
+      ])
     } else {
       Alert.alert('OOPS!', 'Todos must be over 3 chars long', [
         { text: 'Understood', onPress: () => console.log('alert closed') }
@@ -45,6 +49,7 @@ export default function App() {
           <AddTodo submitHandler={submitHandler} />
           <View style={styles.list}>
             <FlatList
+              showsVerticalScrollIndicator={false}
               keyExtractor={(item) => item.id}
               data={todos}
               renderItem={({ item }) => (
@@ -65,9 +70,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   content: {
-    padding: 40
+    flex: 1,
+    padding: 35
   },
   list: {
-    marginTop: 20
+    marginTop: 20,
+    flex: 1,
   }
 });
